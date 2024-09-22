@@ -37,9 +37,15 @@ export const sendVerificationEmail = async (email: string, token: string) => {
   await emailService.sendEmail(
     email,
     'Verify Your Email',
-    `Please click the button below to verify your email:
-    
-    <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Verify</a>`
+    `
+    <!DOCTYPE html>
+    <html lang="en">
+    <body>
+        <p>Please click the button below to verify your email:</p>
+        <a href="${verificationUrl}" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; text-decoration: none; border-radius: 5px;">Verify</a>
+    </body>
+    </html>
+    `
   );
 };
 
