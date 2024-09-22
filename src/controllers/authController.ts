@@ -41,7 +41,7 @@ export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
       <h1>Email Verified Successfully!</h1>
       <p>Your email has been verified. You can now log in to your account.</p>
       <p>Click the button below to go to the login page:</p>
-      <a href="/login" class="button">Go to Login</a>
+      <a href="https://dotpot-it.vercel.app/login" class="button">Go to Login</a>
     </body>
     </html>
   `);

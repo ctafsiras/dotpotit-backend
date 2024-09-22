@@ -20,7 +20,7 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   const token = req.header('Authorization')?.replace('Bearer ', '');
 
   if (!token) {
-    return next(new ApiError(401, 'Authentication required'));
+    return next(new ApiError(401, 'Authentication Required'));
   }
 
   try {
