@@ -23,7 +23,28 @@ export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
 
   await authService.verifyEmail(token);
 
-  res.json({ message: 'Email verified successfully. You can now log in.' });
+  res.status(200).send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Email Verification Successful</title>
+      <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: #4CAF50; }
+        p { margin-bottom: 20px; }
+        .button { display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; }
+      </style>
+    </head>
+    <body>
+      <h1>Email Verified Successfully!</h1>
+      <p>Your email has been verified. You can now log in to your account.</p>
+      <p>Click the button below to go to the login page:</p>
+      <a href="/login" class="button">Go to Login</a>
+    </body>
+    </html>
+  `);
 });
 
 export const login = asyncHandler(async (req: Request, res: Response) => {
