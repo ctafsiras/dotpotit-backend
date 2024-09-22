@@ -61,13 +61,15 @@ export const loginUser = async (email: string, password: string) => {
     throw new ApiError(401, 'Invalid credentials');
   }
 
-  if (!user.isVerified) {
-    throw new ApiError(401, 'Please verify your email before logging in');
-  }
+
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
     throw new ApiError(401, 'Invalid credentials');
+  }
+
+  if (!user.isVerified) {
+    throw new ApiError(401, 'Please verify your email before logging in');
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET as string, {

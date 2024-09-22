@@ -80,12 +80,12 @@ const loginUser = async (email, password) => {
     if (!user) {
         throw new apiError_1.ApiError(401, 'Invalid credentials');
     }
-    if (!user.isVerified) {
-        throw new apiError_1.ApiError(401, 'Please verify your email before logging in');
-    }
     const isPasswordValid = await bcrypt_1.default.compare(password, user.password);
     if (!isPasswordValid) {
         throw new apiError_1.ApiError(401, 'Invalid credentials');
+    }
+    if (!user.isVerified) {
+        throw new apiError_1.ApiError(401, 'Please verify your email before logging in');
     }
     const token = jsonwebtoken_1.default.sign({ userId: user.id }, process.env.JWT_SECRET, {
         expiresIn: '1d',
