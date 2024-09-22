@@ -58,7 +58,7 @@ const generateVerificationToken = async (userId) => {
 };
 exports.generateVerificationToken = generateVerificationToken;
 const sendVerificationEmail = async (email, token) => {
-    const verificationUrl = `${process.env.APP_URL}/verify-email/${token}`;
+    const verificationUrl = `https://dotpotit-backend.vercel.app/api/auth/verify-email/${token}`;
     await emailService.sendEmail(email, 'Verify Your Email', `Please click the following link to verify your email: ${verificationUrl}`);
 };
 exports.sendVerificationEmail = sendVerificationEmail;
