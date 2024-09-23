@@ -32,4 +32,6 @@ const router = express_1.default.Router();
 router.get('/', productController.listProducts);
 router.get('/categories', productController.listCategories);
 router.get('/:id', productController.getProductDetails);
+router.post('/categories', productController.createCategory);
+router.post('/', productController.createProduct);
 exports.default = router;

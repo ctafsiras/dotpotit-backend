@@ -18,3 +18,15 @@ export const listCategories = asyncHandler(async (req: Request, res: Response) =
   const categories = await productService.getCategories();
   res.json(categories);
 });
+
+export const createCategory = asyncHandler(async (req: Request, res: Response) => {
+  const { name } = req.body;
+  const category = await productService.createCategory(name);
+  res.json(category);
+});
+
+export const createProduct = asyncHandler(async (req: Request, res: Response) => {
+  const { name, description, price, categoryId, imageUrl } = req.body;
+  const product = await productService.createProduct(name, description, price, categoryId, imageUrl);
+  res.json(product);
+});

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCategories = exports.getProductById = exports.getProducts = void 0;
+exports.createProduct = exports.createCategory = exports.getCategories = exports.getProductById = exports.getProducts = void 0;
 const client_1 = require("@prisma/client");
 const apiError_1 = require("../utils/apiError");
 const prisma = new client_1.PrismaClient();
@@ -36,3 +36,25 @@ const getCategories = async () => {
     return prisma.category.findMany();
 };
 exports.getCategories = getCategories;
+const createCategory = async (name) => {
+    const category = await prisma.category.create({
+        data: {
+            name,
+        },
+    });
+    return category;
+};
+exports.createCategory = createCategory;
+const createProduct = async (name, description, price, categoryId, imageUrl) => {
+    const product = await prisma.product.create({
+        data: {
+            name,
+            description,
+            price,
+            categoryId,
+            imageUrl,
+        },
+    });
+    return product;
+};
+exports.createProduct = createProduct;

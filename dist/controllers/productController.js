@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.listCategories = exports.getProductDetails = exports.listProducts = void 0;
+exports.createProduct = exports.createCategory = exports.listCategories = exports.getProductDetails = exports.listProducts = void 0;
 const asyncHandler_1 = require("../utils/asyncHandler");
 const productService = __importStar(require("../services/productService"));
 exports.listProducts = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
@@ -39,4 +39,14 @@ exports.getProductDetails = (0, asyncHandler_1.asyncHandler)(async (req, res) =>
 exports.listCategories = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
     const categories = await productService.getCategories();
     res.json(categories);
+});
+exports.createCategory = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
+    const { name } = req.body;
+    const category = await productService.createCategory(name);
+    res.json(category);
+});
+exports.createProduct = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
+    const { name, description, price, categoryId, imageUrl } = req.body;
+    const product = await productService.createProduct(name, description, price, categoryId, imageUrl);
+    res.json(product);
 });

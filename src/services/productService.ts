@@ -39,3 +39,27 @@ export const getProductById = async (id: string) => {
 export const getCategories = async () => {
   return prisma.category.findMany();
 };
+
+export const createCategory = async (name: string) => {
+  const category = await prisma.category.create({
+    data: {
+      name,
+    },
+  });
+
+  return category;
+};
+
+export const createProduct = async (name: string, description: string, price: number, categoryId: string, imageUrl: string) => {
+  const product = await prisma.product.create({
+    data: {
+      name,
+      description,
+      price,
+      categoryId,
+      imageUrl,
+    },
+  });
+
+  return product;
+};
