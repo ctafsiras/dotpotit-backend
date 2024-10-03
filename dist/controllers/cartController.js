@@ -23,9 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCart = exports.removeFromCart = exports.addToCart = void 0;
+exports.sendBillEmail = exports.getCart = exports.removeFromCart = exports.addToCart = void 0;
 const asyncHandler_1 = require("../utils/asyncHandler");
 const cartService = __importStar(require("../services/cartService"));
+const emailService_1 = require("../services/emailService");
 exports.addToCart = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
     const { userId } = req.user;
     const { productId, quantity } = req.body;
@@ -43,3 +44,27 @@ exports.getCart = (0, asyncHandler_1.asyncHandler)(async (req, res) => {
     const cart = await cartService.getCart(userId);
     res.json(cart);
 });
+const sendBillEmail = async (req, res) => {
+    var _a;
+    try {
+        const { email, user } = req.body;
+        const cartItems = await cartService.getCartItems((_a = req.user) === null || _a === void 0 ? void 0 : _a.userId);
+        const pdfBuffer = await (0, emailService_1.generatePDF)(user, cartItems, () => cartService.calculateTotal(cartItems));
+        const emailText = `
+      <h1>Your Bill</h1>
+      <p>Thank you for your order. Please find your bill attached to this email.</p>
+      <h2>Order Summary</h2>
+      <ul>
+        ${cartItems.map((item) => `<li>${item.product.name} (x${item.quantity}) - $${(item.product.price * item.quantity).toFixed(2)}</li>`).join('')}
+      </ul>
+      <p><strong>Total: $${cartService.calculateTotal(cartItems).toFixed(2)}</strong></p>
+    `;
+        await (0, emailService_1.sendEmail)(email, 'Your Order Bill', emailText, [{ filename: 'bill.pdf', content: pdfBuffer }]);
+        res.status(200).json({ message: 'Bill email sent successfully' });
+    }
+    catch (error) {
+        console.error('Error sending bill email:', error);
+        res.status(500).json({ error: 'Failed to send bill email' });
+    }
+};
+exports.sendBillEmail = sendBillEmail;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCart = exports.removeFromCart = exports.addToCart = void 0;
+exports.calculateTotal = exports.getCartItems = exports.getCart = exports.removeFromCart = exports.addToCart = void 0;
 const client_1 = require("@prisma/client");
 const apiError_1 = require("../utils/apiError");
 const prisma = new client_1.PrismaClient();
@@ -74,3 +74,23 @@ const getCart = async (userId) => {
     return cart;
 };
 exports.getCart = getCart;
+const getCartItems = async (userId) => {
+    const cart = await prisma.cart.findUnique({
+        where: { userId },
+        include: {
+            items: {
+                include: {
+                    product: true,
+                },
+            },
+        },
+    });
+    return (cart === null || cart === void 0 ? void 0 : cart.items) || [];
+};
+exports.getCartItems = getCartItems;
+const calculateTotal = (cartItems) => {
+    return cartItems.reduce((total, item) => {
+        return total + item.product.price * item.quantity;
+    }, 0);
+};
+exports.calculateTotal = calculateTotal;

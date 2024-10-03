@@ -79,3 +79,27 @@ export const getCart = async (userId: string) => {
 
   return cart;
 };
+
+export const getCartItems = async (userId: string) => {
+  const cart = await prisma.cart.findUnique({
+    where: { userId },
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
+
+  return cart?.items || [];
+};
+
+export const calculateTotal = (cartItems: any[]) => {
+  return cartItems.reduce((total, item) => {
+    return total + item.product.price * item.quantity;
+  }, 0);
+};
+
+
+
