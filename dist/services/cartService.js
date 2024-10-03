@@ -60,6 +60,12 @@ const getCart = async (userId) => {
                     },
                 },
             },
+            user: {
+                select: {
+                    id: true,
+                    email: true,
+                },
+            },
         },
     });
     if (!cart) {

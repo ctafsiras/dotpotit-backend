@@ -22,7 +22,7 @@ app.use('/api/cart', cartRoutes_1.default);
 app.use('/api/wishlist', wishlistRoutes_1.default);
 app.use('/api/payments', paymentRoutes_1.default);
 app.use(errorHandler_1.errorHandler);
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
